@@ -1,6 +1,10 @@
 vet = []
 import modulo_drogaria
 
+vet.append(['Dorflex', 7890, 5.0, 500])
+vet.append(['Desodorante', 7891, 10.0, 1000])
+vet.append(['Fralda', 7892, 20.0, 2000])
+
 while True:
     try:
         opc = modulo_drogaria.menu()
@@ -89,19 +93,18 @@ while True:
         if opc == 6:
             if len(vet) > 0:
                 try:
-                    veri = int(input('\nInserir PRODUTO no ESTOQUE:\nDigite o CÓDIGO -  '))
+                    veri = int(input('\nInserir novo volume ao PRODUTO no ESTOQUE:\nDigite o CÓDIGO -  '))
                     for produto in vet:
                         if veri == produto[1]:
-                            new_vol = int(input(f'\nInsira o novo volume: '))
+                            new_vol = int(input(f'\nInsira o novo volume ao produto ({produto[0]}): '))
                             if ( new_vol > 0):
                                 produto[3] = produto[3] + new_vol
-                                msg = '\nRemovido com SUCESSO !'
+                                msg = '\nAdição efetuada com sucesso!'
                                 print(msg)
                             else:
                                 print('Volume inválido!')
                                 break
-                        else:
-                            modulo_drogaria.opcinvalid()
+                        
                 except:
                     modulo_drogaria.opcinvalid()
             else:
@@ -112,7 +115,7 @@ while True:
                     veri = int(input('\nRemover PRODUTO do ESTOQUE:\nDigite o CÓDIGO -  '))
                     for produto in vet:
                         if veri == produto[1]:
-                            new_vol = int(input(f'\nInsira o volume a remover: '))
+                            new_vol = int(input(f'\nInsira o volume a remover de ({produto[0]}): '))
                             if ( new_vol > 0 and new_vol <= produto[3]):
                                 produto[3] = produto[3] - new_vol
                                 msg = '\nRemovido com SUCESSO ! '
