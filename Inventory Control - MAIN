@@ -1,0 +1,137 @@
+vet = []
+import modulo_drogaria
+
+while True:
+    try:
+        opc = modulo_drogaria.menu()
+        if opc == 1:
+            print('**Cadastro de PRODUTOS**\n')
+            try:
+                qtd = int(input('Quantos PRODUTOS deseja cadastrar ( Max:10 )? '))
+                if qtd < 0 or qtd > 10:
+                    modulo_drogaria.opcinvalid()
+                else:
+                    for i in range(0, qtd, 1):
+                        if qtd == 1:
+                            nome = input('\nDigite o nome do PRODUTO: ')
+                        else:
+                            nome = input(f'\n{i + 1}º PRODUTO, digite o nome: ')
+                        cod_pro = int(input('Digite o código do PRODUTO (4 - Digitos): '))
+                        if cod_pro > 999 and cod_pro <= 9999:
+                                preco = float(input('Digite o Preço: '))
+                                if preco >= 0 and preco <= 10000000:
+                                        qtd_pro = int(input('Digite a quantidade a registrar no estoque: '))
+                                        if qtd_pro >= 0 and qtd_pro <= 100000:
+                                            vet.append([nome.capitalize(), cod_pro, preco, qtd_pro, 0.0])
+                                            print('Cadastrado com SUCESSO !! ')
+                                        else:
+                                            modulo_drogaria.opcinvalid()
+                                            break
+                                else:
+                                    modulo_drogaria.opcinvalid()
+                                    break
+                        else:
+                            modulo_drogaria.opcinvalid()
+                            break
+            except:
+                modulo_drogaria.opcinvalid()
+        if opc == 2:
+            if len(vet) > 0:
+                try:
+                    veri = int(input('Consulta:\nDigite o CÓDIGO -  '))
+                    for produto in vet:
+                        if veri == produto[1]:
+                            print(f'\nCodigo : {produto[1]}\nNome : {produto[0]}\nPreço : R${produto[2]}')
+                    if veri != produto[1]:
+                        modulo_drogaria.opcinvalid()
+                except:
+                    modulo_drogaria.opcinvalid()
+            else:
+                modulo_drogaria.naoprocas()
+        if opc == 3:
+            if len(vet) > 0:
+                modulo_drogaria.titleestoque()
+                for produto in vet:
+                    print(f'{produto[0].ljust(15)} {str(produto[1]).center(15)} {str(produto[3]).rjust(15)}')
+            else:
+                modulo_drogaria.naoprocas()
+        if opc == 4:
+            if len(vet) > 0:
+                try:
+                    veri = int(input('Venda:\nDigite o CÓDIGO -  '))
+                    for produto in vet:
+                        if veri == produto[1]:
+                            venda_estoque = float(input(f'\nProduto : {produto[0]}\nQuantidade vendida: '))
+                            if venda_estoque <= produto[3]:
+                                produto[3] = int(produto[3] - venda_estoque)
+                                produto[4] = ((venda_estoque * produto[2]) + produto[4])
+                                msg = '\nAlterado com SUCESSO ! '
+                                print(msg)
+                            else:
+                                modulo_drogaria.opcinvalid()
+                except:
+                    modulo_drogaria.opcinvalid()
+            else:
+                modulo_drogaria.naoprocas()
+        if opc == 5:
+            if len(vet) > 0:
+                if produto[4] > 0:
+                    modulo_drogaria.titlefat()
+                    try:
+                        for produto in vet:
+                            print(f'{produto[0].ljust(15)} {str(produto[1]).center(15)} {float(str(produto[4]).rjust(20))}')
+                    except:
+                        modulo_drogaria.opcinvalid()
+                else:
+                    print('Nenhuma venda registrada!')
+            else:
+                modulo_drogaria.naoprocas()
+        if opc == 6:
+            if len(vet) > 0:
+                try:
+                    veri = int(input('\nInserir PRODUTO no ESTOQUE:\nDigite o CÓDIGO -  '))
+                    for produto in vet:
+                        if veri == produto[1]:
+                            new_vol = int(input(f'\nInsira o novo volume: '))
+                            if ( new_vol > 0):
+                                produto[3] = produto[3] + new_vol
+                                msg = '\nRemovido com SUCESSO !'
+                                print(msg)
+                            else:
+                                print('Volume inválido!')
+                                break
+                        else:
+                            modulo_drogaria.opcinvalid()
+                except:
+                    modulo_drogaria.opcinvalid()
+            else:
+                modulo_drogaria.naoprocas()
+        if opc == 7:
+            if len(vet) > 0:
+                try:
+                    veri = int(input('\nRemover PRODUTO do ESTOQUE:\nDigite o CÓDIGO -  '))
+                    for produto in vet:
+                        if veri == produto[1]:
+                            new_vol = int(input(f'\nInsira o volume a remover: '))
+                            if ( new_vol > 0 and new_vol <= produto[3]):
+                                produto[3] = produto[3] - new_vol
+                                msg = '\nRemovido com SUCESSO ! '
+                                print(msg)
+                            else:
+                                print('Volume inválido!')
+                                break
+                        else:
+                            modulo_drogaria.opcinvalid()
+                except:
+                    modulo_drogaria.opcinvalid()
+            else:
+                modulo_drogaria.naoprocas()
+        
+        if opc == 8:
+            print('Finalizando')
+            break
+        if opc > 8:
+            modulo_drogaria.opcinvalid()
+    except:
+        modulo_drogaria.opcinvalid()
+
